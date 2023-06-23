@@ -2,14 +2,13 @@ package validator
 
 import (
 	"context"
-	"math/rand"
 
 	"github.com/ethereum/go-ethereum"
 	"github.com/ethereum/go-ethereum/common/hexutil"
 	"github.com/ethereum/go-ethereum/rpc"
 	"github.com/kroma-network/kroma/components/node/client"
 	"github.com/kroma-network/kroma/components/node/eth"
-	"github.com/kroma-network/kroma/components/node/testutils"
+	"github.com/kroma-network/kroma/e2e/testdata"
 )
 
 type MaliciousRollupRPC struct {
@@ -46,15 +45,10 @@ func (r *MaliciousRollupRPC) CallContext(ctx context.Context, result interface{}
 		if err != nil {
 			return err
 		}
-		if r.targetBlockNumber != nil && *r.targetBlockNumber <= blockNumber {
-			rng := rand.New(rand.NewSource(int64(blockNumber)))
-
-			s := result.(**eth.OutputResponse)
-			(*s).OutputRoot = eth.Bytes32(testutils.RandomHash(rng))
-			(*s).WithdrawalStorageRoot = testutils.RandomHash(rng)
-			(*s).StateRoot = testutils.RandomHash(rng)
-
-			return nil
+		if r.targetBlockNumber != nil && *r.targetBlockNumber-1 == blockNumber {
+			return testdata.SetPrevOutputResponse(result.(**eth.OutputResponse))
+		} else if r.targetBlockNumber != nil && *r.targetBlockNumber == blockNumber {
+			return testdata.SetTargetOutputResponse(result.(**eth.OutputResponse))
 		}
 	}
 

@@ -7,7 +7,6 @@ import (
 	"github.com/ethereum/go-ethereum/log"
 	"github.com/kroma-network/kroma/components/node/sources"
 	"github.com/kroma-network/kroma/components/validator"
-	chal "github.com/kroma-network/kroma/components/validator/challenge"
 	"github.com/kroma-network/kroma/components/validator/metrics"
 	"github.com/kroma-network/kroma/utils"
 	"github.com/kroma-network/kroma/utils/service/txmgr"
@@ -47,13 +46,8 @@ func NewMaliciousValidatorConfig(cfg validator.CLIConfig, l log.Logger, m *metri
 		return nil, errors.New("ProverGrpc is required but given empty")
 	}
 
-	var fetcher validator.ProofFetcher
-	if len(cfg.ProverGrpc) > 0 {
-		fetcher, err = chal.NewFetcher(cfg.ProverGrpc, cfg.FetchingProofTimeout, l)
-		if err != nil {
-			return nil, err
-		}
-	}
+	// mock fetcher
+	fetcher := NewFetcher(l, "./proof")
 
 	// Connect to L1 and L2 providers. Perform these last since they are the most expensive.
 	ctx := context.Background()

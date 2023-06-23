@@ -4,7 +4,7 @@ go 1.20
 
 require (
 	github.com/ethereum/go-ethereum v1.12.0
-	github.com/kroma-network/kroma v0.1.2-0.20230622004110-d452f6b7eed8
+	github.com/kroma-network/kroma v0.1.2-0.20230623093155-562d612621c0
 	github.com/urfave/cli v1.22.14
 )
 
