@@ -1,0 +1,10 @@
+version: '3.9'
+
+services:
+  malicious-validator:
+    build:
+      context: . #./Dockerfile
+    environment:
+      # NODE_L1_ETH_RPC: https://api.easel.kroma.cc # wss://wc.easel.kroma.cc
+    entrypoint: "/bin/sh ./malicious-validator"
+    
