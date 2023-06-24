@@ -3,8 +3,30 @@ version: '3.9'
 services:
   malicious-validator:
     build:
-      context: . #./Dockerfile
+      context: . #./Dockerfile Path
     environment:
-      # NODE_L1_ETH_RPC: https://api.easel.kroma.cc # wss://wc.easel.kroma.cc
-    entrypoint: "/bin/sh ./malicious-validator"
-    
+      VALIDATOR_L1_ETH_RPC: https://api.easel.kroma.cc  # Target to L1 Geth Client RPC (Easel)
+      VALIDATOR_ROLLUP_RPC: http://temporary-inhouse-alb-1675552331.ap-northeast-2.elb.amazonaws.com:80 # Target to L2 Consensus Client (Proposer Node)
+      VALIDATOR_CHALLENGER_DISABLED: "false"
+      VALIDATOR_METRICS_ENABLED: "true"
+      VALIDATOR_ALLOW_NON_FINALIZED: "true"
+      VALIDATOR_TXMGR_TX_SEND_TIMEOUT: 600s
+      VALIDATOR_NUM_CONFIRMATIONS: "1"
+      VALIDATOR_SAFE_ABORT_NONCE_TOO_LOW_COUNT: "3"
+      VALIDATOR_RESUBMISSION_TIMEOUT: 30s
+      VALIDATOR_LOG_TERMINAL: "true"
+      VALIDATOR_PPROF_ENABLED: "true"
+      VALIDATOR_PROVER_GRPC: "http://temporary-inhouse-alb-1675552331.ap-northeast-2.elb.amazonaws.com:80" # 임시 Prover Ip
+      VALIDATOR_CHALLENGER_POLL_INTERVAL: 1s
+      VALIDATOR_OUTPUT_SUBMITTER_BOND_AMOUNT: "1"
+      VALIDATOR_GUARDIAN_ENABLED: "true"
+      VALIDATOR_RESUBSCRIBE_BACKOFF_MAX: "10s"
+      # secret configs
+      VALIDATOR_L2OO_ADDRESS: ""
+      VALIDATOR_COLOSSEUM_ADDRESS: "" 
+      VALIDATOR_VALPOOL_ADDRESS: ""
+      VALIDATOR_SECURITYCOUNCIL_ADDRESS: ""
+      # Choose between VALIDATOR_HD_PATH,VALIDATOR_MNEMONIC and VALIDATOR_PRIVATE_KEY
+      VALIDATOR_HD_PATH: ""
+      VALIDATOR_MNEMONIC: ""
+      VALIDATOR_PRIVATE_KEY: ""
