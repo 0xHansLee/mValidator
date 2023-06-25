@@ -7,8 +7,6 @@ import (
 	"github.com/ethereum/go-ethereum/common/hexutil"
 	"github.com/ethereum/go-ethereum/rpc"
 	"github.com/kroma-network/kroma/components/node/client"
-	"github.com/kroma-network/kroma/components/node/eth"
-	"github.com/kroma-network/kroma/e2e/testdata"
 )
 
 type MaliciousRollupRPC struct {
@@ -37,18 +35,19 @@ func (r *MaliciousRollupRPC) Close() {
 }
 
 func (r *MaliciousRollupRPC) CallContext(ctx context.Context, result interface{}, method string, args ...interface{}) error {
-	if method == "kroma_outputAtBlock" {
+	if method == "kroma_outputAtBlock" || method == "kroma_outputWithProofAtBlock" {
 		blockNumber := args[0].(hexutil.Uint64)
-		includeNextBlock := args[1].(bool)
 
-		err := r.rpc.CallContext(ctx, &result, "kroma_outputAtBlock", blockNumber, includeNextBlock)
+		if r.targetBlockNumber != nil && blockNumber >= *r.targetBlockNumber {
+			err := r.rpc.CallContext(ctx, &result, method, blockNumber-1)
+			if err != nil {
+				return err
+			}
+			return nil
+		}
+		err := r.rpc.CallContext(ctx, &result, method, blockNumber)
 		if err != nil {
 			return err
-		}
-		if r.targetBlockNumber != nil && *r.targetBlockNumber-1 == blockNumber {
-			return testdata.SetPrevOutputResponse(result.(**eth.OutputResponse))
-		} else if r.targetBlockNumber != nil && *r.targetBlockNumber == blockNumber {
-			return testdata.SetTargetOutputResponse(result.(**eth.OutputResponse))
 		}
 	}
 
