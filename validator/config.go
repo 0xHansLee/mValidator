@@ -75,7 +75,6 @@ func NewMaliciousValidatorConfig(cfg validator.CLIConfig, l log.Logger, m *metri
 		ValidatorPoolAddr:            valPoolAddress,
 		ChallengerPollInterval:       cfg.ChallengerPollInterval,
 		NetworkTimeout:               cfg.TxMgrConfig.NetworkTimeout,
-		ResubscribeBackoffMax:        cfg.ResubscribeBackoffMax,
 		TxManager:                    txManager,
 		L1Client:                     l1Client,
 		RollupClient:                 rollupClient,

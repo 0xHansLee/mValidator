@@ -4,8 +4,9 @@ go 1.20
 
 require (
 	github.com/ethereum/go-ethereum v1.12.0
-	github.com/kroma-network/kroma v0.1.2-0.20230623093155-562d612621c0
+	github.com/kroma-network/kroma v0.2.0
 	github.com/urfave/cli v1.22.14
+	golang.org/x/sync v0.1.0
 )
 
 require (
@@ -99,7 +100,6 @@ require (
 	golang.org/x/crypto v0.4.0 // indirect
 	golang.org/x/exp v0.0.0-20230206171751-46f607a40771 // indirect
 	golang.org/x/net v0.5.0 // indirect
-	golang.org/x/sync v0.1.0 // indirect
 	golang.org/x/sys v0.7.0 // indirect
 	golang.org/x/term v0.4.0 // indirect
 	golang.org/x/text v0.7.0 // indirect
