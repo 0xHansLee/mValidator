@@ -21,3 +21,17 @@ docker logs $(docker container ls --all | grep malicious-validator | awk '{print
 # 종료
 docker-compose down
 ```
+
+
+Deposit
+```
+# honest
+docker exec -it  $(docker container ls --all | grep kroma-validator | awk '{print $1}') /bin/sh
+# shell에서 실행
+> kroma-validator deposit --amount 1000000000000000000
+
+# malicious
+docker exec -it  $(docker container ls --all | grep kroma-validator | awk '{print $1}') /bin/sh
+# shell에서 실행
+> malicious-validator deposit --amount 1000000000000000000
+```

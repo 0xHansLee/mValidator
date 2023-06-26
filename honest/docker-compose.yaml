@@ -1,15 +1,19 @@
 version: '3.9'
 
 services:
-  malicious-validator:
-    build:
-      context: . #./Dockerfile Path
+  validator:
+    image: kromanetwork/validator:v0.2.0
     environment:
+      # Change Environment for test (Using QA)
       VALIDATOR_OUTPUT_SUBMITTER_DISABLED: "true" # Output submitter
-      VALIDATOR_CHALLENGER_DISABLED: "false" # Challenger
-      VALIDATOR_MALICIOUS_BLOCK_NUMBER: "1" # Malicious block number
+      VALIDATOR_CHALLENGER_DISABLED: "false"      # Challenger
+      VALIDATOR_MALICIOUS_BLOCK_NUMBER: "1"       # Malicious block number
+
+      # Don't Changed Environment
+      # - Vanilla-geth-0: 3.35.246.87 
+      # - Vanilla-node-0: 43.200.247.146
       VALIDATOR_L1_ETH_RPC: wss://wc.easel.kroma.cc  # Target to L1 Geth Client RPC (Easel)
-      VALIDATOR_ROLLUP_RPC: http://temporary-inhouse-alb-1675552331.ap-northeast-2.elb.amazonaws.com:80 # Target to L2 Consensus Client (Proposer Node)
+      VALIDATOR_ROLLUP_RPC: http://43.200.247.146:8545 # Target to L2 Consensus Client (Proposer Node)
       VALIDATOR_METRICS_ENABLED: "true"
       VALIDATOR_ALLOW_NON_FINALIZED: "true"
       VALIDATOR_TXMGR_TX_SEND_TIMEOUT: 600s
@@ -18,16 +22,16 @@ services:
       VALIDATOR_RESUBMISSION_TIMEOUT: 30s
       VALIDATOR_LOG_TERMINAL: "true"
       VALIDATOR_PPROF_ENABLED: "true"
-      VALIDATOR_PROVER_GRPC: "http://temporary-inhouse-alb-1675552331.ap-northeast-2.elb.amazonaws.com:80" # 임시 Prover Ip
-      VALIDATOR_CHALLENGER_POLL_INTERVAL: 1s
+      VALIDATOR_PROVER_GRPC: "http://3.35.246.87:8545" # 임시 Prover Ip
+      VALIDATOR_CHALLENGER_POLL_INTERVAL: 5s
       VALIDATOR_OUTPUT_SUBMITTER_BOND_AMOUNT: "1"
       VALIDATOR_GUARDIAN_ENABLED: "false"
-      # secret configs
+
+      # Secret Configs
       VALIDATOR_L2OO_ADDRESS: "0x74Cf9087AD26D541930BaC724B7ab21bA8F00a27"
       VALIDATOR_COLOSSEUM_ADDRESS: "0xA56F946D6398Dd7d9D4D9B337Cf9E0F68982ca5B"
       VALIDATOR_VALPOOL_ADDRESS: "0x8bCe54ff8aB45CB075b044AE117b8fD91F9351aB"
       VALIDATOR_SECURITYCOUNCIL_ADDRESS: "0x5D42EBdBBa61412295D7b0302d6F50aC449Ddb4F"
-      # Choose between VALIDATOR_HD_PATH,VALIDATOR_MNEMONIC and VALIDATOR_PRIVATE_KEY
-      VALIDATOR_HD_PATH: ""
-      VALIDATOR_MNEMONIC: ""
-      VALIDATOR_PRIVATE_KEY: ""
+      VALIDATOR_MNEMONIC: "wonder paper game grace consider pizza grain judge stadium street nothing elevator"
+      VALIDATOR_HD_PATH: "m/44'/60'/1'/0/7"       # QA 7,8 devops 0~6
+      # VALIDATOR_PRIVATE_KEY: "" # MNEMONIC 으로 대체

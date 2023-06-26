@@ -4,7 +4,4 @@ WORKDIR /app
 COPY . .
 RUN go build -o malicious-validator ./cmd/main.go 
 
-FROM alpine:3.17 as malicious-validator
-COPY --from=builder /app /usr/local/bin
-
-ENTRYPOINT ["malicious-validator"]
+ENTRYPOINT ["/app/malicious-validator"]
