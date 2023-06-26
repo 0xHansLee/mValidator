@@ -8,7 +8,7 @@ services:
       VALIDATOR_OUTPUT_SUBMITTER_DISABLED: "true" # Output submitter
       VALIDATOR_CHALLENGER_DISABLED: "false" # Challenger
       VALIDATOR_MALICIOUS_BLOCK_NUMBER: "1" # Malicious block number
-      VALIDATOR_L1_ETH_RPC: wss://ws.easel.kroma.cc  # Target to L1 Geth Client RPC (Easel)
+      VALIDATOR_L1_ETH_RPC: wss://wc.easel.kroma.cc  # Target to L1 Geth Client RPC (Easel)
       VALIDATOR_ROLLUP_RPC: http://temporary-inhouse-alb-1675552331.ap-northeast-2.elb.amazonaws.com:80 # Target to L2 Consensus Client (Proposer Node)
       VALIDATOR_METRICS_ENABLED: "true"
       VALIDATOR_ALLOW_NON_FINALIZED: "true"
