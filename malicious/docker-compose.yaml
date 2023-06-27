@@ -6,13 +6,11 @@ services:
       context: ../ #./Dockerfile Path
     environment:
       # Change Environment for test (Using QA)
-      VALIDATOR_OUTPUT_SUBMITTER_DISABLED: "true" # Output submitter
-      VALIDATOR_CHALLENGER_DISABLED: "false"        # Challenger
+      VALIDATOR_OUTPUT_SUBMITTER_DISABLED: "false" # Output submitter
+      VALIDATOR_CHALLENGER_DISABLED: "true"        # Challenger
       VALIDATOR_MALICIOUS_BLOCK_NUMBER: "125200"        # Malicious block number
 
       # Don't Changed Environment
-      # - Vanilla-geth-0: 3.35.246.87 
-      # - Vanilla-node-0: 43.200.247.146
       VALIDATOR_L1_ETH_RPC: wss://wc.easel.kroma.cc  # Target to L1 Geth Client RPC (Easel)
       VALIDATOR_ROLLUP_RPC: http://43.200.247.146:8545 # Target to L2 Consensus Client (Proposer Node)
       VALIDATOR_METRICS_ENABLED: "true"
@@ -35,4 +33,4 @@ services:
       VALIDATOR_SECURITYCOUNCIL_ADDRESS: "0x5D42EBdBBa61412295D7b0302d6F50aC449Ddb4F"
       VALIDATOR_MNEMONIC: "wonder paper game grace consider pizza grain judge stadium street nothing elevator"
       VALIDATOR_HD_PATH: "m/44'/60'/1'/0/8"        # QA 7,8 devops 0~6
-      # VALIDATOR_PRIVATE_KEY: "" # MNEMONIC 으로 대체
+#      VALIDATOR_HD_PATH: "m/44'/60'/1'/0/10"

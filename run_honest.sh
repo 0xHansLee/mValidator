@@ -1,3 +1,3 @@
 #!/bin/sh
 
-docker compose -f docker-compose/validator.yaml up -d
+docker compose -f honest/docker-compose.yaml up -d
