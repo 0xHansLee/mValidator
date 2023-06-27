@@ -47,7 +47,7 @@ func NewMaliciousValidatorConfig(cfg validator.CLIConfig, l log.Logger, m *metri
 	}
 
 	// mock fetcher
-	fetcher := NewFetcher(l, "./proof")
+	fetcher := NewFetcher(l, "/app/validator/proof")
 
 	// Connect to L1 and L2 providers. Perform these last since they are the most expensive.
 	ctx := context.Background()
