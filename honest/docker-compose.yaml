@@ -2,7 +2,7 @@ version: '3.9'
 
 services:
   validator:
-    image: kromanetwork/validator:v0.2.0
+    image: kromanetwork/validator:dev-0d0a8a0
     environment:
       # Change Environment for test (Using QA)
       VALIDATOR_OUTPUT_SUBMITTER_DISABLED: "true" # Output submitter

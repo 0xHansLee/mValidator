@@ -45,7 +45,7 @@ func (r *MaliciousRollupRPC) CallContext(ctx context.Context, result interface{}
 		if err != nil {
 			return err
 		}
-		if r.targetBlockNumber != nil && *r.targetBlockNumber <= blockNumber {
+		if r.isMaliciousBlock(blockNumber) {
 			rng := rand.New(rand.NewSource(int64(blockNumber)))
 
 			s := result.(**eth.OutputResponse)
@@ -66,4 +66,8 @@ func (r *MaliciousRollupRPC) BatchCallContext(ctx context.Context, b []rpc.Batch
 
 func (r *MaliciousRollupRPC) EthSubscribe(ctx context.Context, channel interface{}, args ...interface{}) (ethereum.Subscription, error) {
 	return r.rpc.EthSubscribe(ctx, channel, args...)
+}
+
+func (r *MaliciousRollupRPC) isMaliciousBlock(blockNumber hexutil.Uint64) bool {
+	return r.targetBlockNumber != nil && blockNumber >= *r.targetBlockNumber && blockNumber < *r.targetBlockNumber+60
 }
