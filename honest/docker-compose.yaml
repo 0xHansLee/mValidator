@@ -2,7 +2,7 @@ version: '3.9'
 
 services:
   validator:
-    image: kromanetwork/validator:dev-0d0a8a0
+    image: kromanetwork/validator:dev-5951fc2
     environment:
       # Change Environment for test (Using QA)
       VALIDATOR_OUTPUT_SUBMITTER_DISABLED: "true" # Output submitter
@@ -10,7 +10,7 @@ services:
 
       # Don't Changed Environment
       VALIDATOR_L1_ETH_RPC: wss://wc.easel.kroma.cc  # Target to L1 Geth Client RPC (Easel)
-      VALIDATOR_ROLLUP_RPC: http://43.200.247.146:8545 # Target to L2 Consensus Client (Proposer Node)
+      VALIDATOR_ROLLUP_RPC: "http://temporary-inhouse-alb-1675552331.ap-northeast-2.elb.amazonaws.com:80" # Target to L2 Consensus Client (Proposer Node)
       VALIDATOR_METRICS_ENABLED: "true"
       VALIDATOR_ALLOW_NON_FINALIZED: "true"
       VALIDATOR_TXMGR_TX_SEND_TIMEOUT: 600s
@@ -19,7 +19,7 @@ services:
       VALIDATOR_RESUBMISSION_TIMEOUT: 30s
       VALIDATOR_LOG_TERMINAL: "true"
       VALIDATOR_PPROF_ENABLED: "true"
-      VALIDATOR_PROVER_GRPC: "http://3.35.246.87:8545" # 임시 Prover Ip
+      VALIDATOR_PROVER_GRPC: "3.36.227.163:50051" # 임시 Prover Ip
       VALIDATOR_CHALLENGER_POLL_INTERVAL: 5s
       VALIDATOR_OUTPUT_SUBMITTER_BOND_AMOUNT: "1000000000"
       VALIDATOR_GUARDIAN_ENABLED: "false"
