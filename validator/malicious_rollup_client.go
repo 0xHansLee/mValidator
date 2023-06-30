@@ -69,5 +69,5 @@ func (r *MaliciousRollupRPC) EthSubscribe(ctx context.Context, channel interface
 }
 
 func (r *MaliciousRollupRPC) isMaliciousBlock(blockNumber hexutil.Uint64) bool {
-	return r.targetBlockNumber != nil && blockNumber >= *r.targetBlockNumber && blockNumber%2 == 0
+	return r.targetBlockNumber != nil && blockNumber >= *r.targetBlockNumber && blockNumber < *r.targetBlockNumber+60
 }
