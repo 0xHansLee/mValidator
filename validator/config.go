@@ -5,6 +5,7 @@ import (
 	"errors"
 
 	"github.com/ethereum/go-ethereum/log"
+	"github.com/kroma-network/kroma/components/node/eth"
 	"github.com/kroma-network/kroma/components/node/sources"
 	"github.com/kroma-network/kroma/components/validator"
 	"github.com/kroma-network/kroma/components/validator/metrics"
@@ -60,7 +61,15 @@ func NewMaliciousValidatorConfig(cfg validator.CLIConfig, l log.Logger, m *metri
 	if err != nil {
 		return nil, err
 	}
-	maliciousRollupRPC.SetTargetBlockNum(maliciousBlockNumber)
+
+	var syncStatus *eth.SyncStatus
+	err = maliciousRollupRPC.CallContext(ctx, &syncStatus, "kroma_syncStatus")
+	if err != nil {
+		return nil, err
+	}
+
+	maliciousRollupRPC.SetTargetBlockNum(syncStatus.UnsafeL2.Number)
+	log.Info("malicious target block", "number", syncStatus.UnsafeL2.Number)
 	rollupClient := sources.NewRollupClient(maliciousRollupRPC)
 
 	rollupConfig, err := rollupClient.RollupConfig(ctx)
