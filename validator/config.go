@@ -3,6 +3,7 @@ package validator
 import (
 	"context"
 	"errors"
+	"github.com/kroma-network/kroma/components/validator/challenge"
 
 	"github.com/ethereum/go-ethereum/log"
 	"github.com/kroma-network/kroma/components/node/sources"
@@ -33,25 +34,36 @@ func NewMaliciousValidatorConfig(cfg validator.CLIConfig, l log.Logger, m *metri
 		return nil, err
 	}
 
-	txManager, err := txmgr.NewSimpleTxManager("validator", l, m, cfg.TxMgrConfig)
+	txManager, err := txmgr.NewBufferedTxManager("validator", l, m, cfg.TxMgrConfig)
 	if err != nil {
 		return nil, err
 	}
 
-	if cfg.OutputSubmitterDisabled && cfg.ChallengerDisabled {
+	if !cfg.OutputSubmitterEnabled && !cfg.ChallengerEnabled {
 		return nil, errors.New("output submitter and challenger are disabled. either output submitter or challenger must be enabled")
 	}
 
-	if !cfg.ChallengerDisabled && len(cfg.ProverGrpc) == 0 {
-		return nil, errors.New("ProverGrpc is required but given empty")
+	if cfg.ChallengerEnabled && len(cfg.ProverRPC) == 0 {
+		return nil, errors.New("ProverRPC is required when challenger enabled, but given empty")
 	}
 
 	// mock fetcher
-	fetcher := NewFetcher(l, "/app/validator/proof")
+	var fetcher validator.ProofFetcher
+	if cfg.ChallengerEnabled && len(cfg.ProverRPC) > 0 {
+		fetcher, err = challenge.NewFetcher(cfg.ProverRPC, cfg.FetchingProofTimeout, l)
+		if err != nil {
+			return nil, err
+		}
+	}
 
 	// Connect to L1 and L2 providers. Perform these last since they are the most expensive.
 	ctx := context.Background()
 	l1Client, err := utils.DialEthClientWithTimeout(ctx, cfg.L1EthRpc)
+	if err != nil {
+		return nil, err
+	}
+
+	l2Client, err := utils.DialEthClientWithTimeout(ctx, cfg.L2EthRpc)
 	if err != nil {
 		return nil, err
 	}
@@ -77,14 +89,14 @@ func NewMaliciousValidatorConfig(cfg validator.CLIConfig, l log.Logger, m *metri
 		NetworkTimeout:               cfg.TxMgrConfig.NetworkTimeout,
 		TxManager:                    txManager,
 		L1Client:                     l1Client,
+		L2Client:                     l2Client,
 		RollupClient:                 rollupClient,
 		RollupConfig:                 rollupConfig,
 		AllowNonFinalized:            cfg.AllowNonFinalized,
-		OutputSubmitterDisabled:      cfg.OutputSubmitterDisabled,
-		OutputSubmitterBondAmount:    cfg.OutputSubmitterBondAmount,
+		OutputSubmitterEnabled:       cfg.OutputSubmitterEnabled,
 		OutputSubmitterRetryInterval: cfg.OutputSubmitterRetryInterval,
 		OutputSubmitterRoundBuffer:   cfg.OutputSubmitterRoundBuffer,
-		ChallengerDisabled:           cfg.ChallengerDisabled,
+		ChallengerEnabled:            cfg.ChallengerEnabled,
 		GuardianEnabled:              cfg.GuardianEnabled,
 		ProofFetcher:                 fetcher,
 	}, nil
