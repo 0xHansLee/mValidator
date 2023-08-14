@@ -3,11 +3,12 @@ package validator
 import (
 	"context"
 	"errors"
-	"github.com/kroma-network/kroma/components/validator/challenge"
 
 	"github.com/ethereum/go-ethereum/log"
+
 	"github.com/kroma-network/kroma/components/node/sources"
 	"github.com/kroma-network/kroma/components/validator"
+	"github.com/kroma-network/kroma/components/validator/challenge"
 	"github.com/kroma-network/kroma/components/validator/metrics"
 	"github.com/kroma-network/kroma/utils"
 	"github.com/kroma-network/kroma/utils/service/txmgr"

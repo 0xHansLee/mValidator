@@ -30,5 +30,4 @@ services:
       VALIDATOR_VALPOOL_ADDRESS: "0x8bCe54ff8aB45CB075b044AE117b8fD91F9351aB"
       VALIDATOR_SECURITYCOUNCIL_ADDRESS: "0x5D42EBdBBa61412295D7b0302d6F50aC449Ddb4F"
       VALIDATOR_MNEMONIC: "wonder paper game grace consider pizza grain judge stadium street nothing elevator"
-      VALIDATOR_HD_PATH: "m/44'/60'/1'/0/7"       # QA 7~10 devops 0~6
-#      VALIDATOR_HD_PATH: "m/44'/60'/1'/0/9"
+      VALIDATOR_HD_PATH: "${HD_PATH}" # QA 7~14 devops 0~6
