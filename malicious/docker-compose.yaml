@@ -12,7 +12,7 @@ services:
 
       # Don't Changed Environment
       VALIDATOR_L1_ETH_RPC: "wss://wc.easel.kroma.cc" # Target to L1 Geth Client RPC (Easel)
-      VALIDATOR_L2_ETH_RPC: "https://api.sail.kroma.cc" # Target to L2 Geth Client RPC (Sail)
+      VALIDATOR_L2_ETH_RPC: "http://dev-kroma-sail-apne2-proposer-vanilla-0.kroma.cc:8545" # Target to L2 Geth Client RPC (Sail)
       VALIDATOR_ROLLUP_RPC: "http://dev-kroma-sail-apne2-vanilla-0.kroma.cc:9545" # Target to L2 Consensus Client (Full Node)
       VALIDATOR_METRICS_ENABLED: "true"
       VALIDATOR_ALLOW_NON_FINALIZED: "true"
