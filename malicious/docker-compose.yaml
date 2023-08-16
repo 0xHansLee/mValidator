@@ -25,7 +25,7 @@ services:
       VALIDATOR_PROVER_GRPC: "3.36.227.163:50051" # 임시 Prover Ip
       VALIDATOR_CHALLENGER_POLL_INTERVAL: 5s
       VALIDATOR_GUARDIAN_ENABLED: "false"
-      VALIDATOR_PROVER_RPC: "prover-proxy.sail.kroma.cc"
+      VALIDATOR_PROVER_RPC: "https://prover-proxy.sail.kroma.cc"
       
       # Secret Configs
       VALIDATOR_L2OO_ADDRESS: "0x74Cf9087AD26D541930BaC724B7ab21bA8F00a27"
