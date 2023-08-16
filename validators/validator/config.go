@@ -48,7 +48,6 @@ func NewMaliciousValidatorConfig(cfg validator.CLIConfig, l log.Logger, m *metri
 		return nil, errors.New("ProverRPC is required when challenger enabled, but given empty")
 	}
 
-	// mock fetcher
 	var fetcher validator.ProofFetcher
 	if cfg.ChallengerEnabled && len(cfg.ProverRPC) > 0 {
 		fetcher, err = challenge.NewFetcher(cfg.ProverRPC, cfg.FetchingProofTimeout, l)

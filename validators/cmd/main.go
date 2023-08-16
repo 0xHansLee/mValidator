@@ -5,11 +5,12 @@ import (
 	"os"
 
 	"github.com/ethereum/go-ethereum/log"
-	"github.com/kroma-network/kroma-malicious-validator/validator"
+	"github.com/urfave/cli"
+
+	"github.com/kroma-network/kroma-malicious-validator/validators/validator"
 	"github.com/kroma-network/kroma/components/validator/cmd/balance"
 	kflags "github.com/kroma-network/kroma/components/validator/flags"
 	klog "github.com/kroma-network/kroma/utils/service/log"
-	"github.com/urfave/cli"
 )
 
 var (
