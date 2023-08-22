@@ -105,15 +105,18 @@ func (g TxGenerator) Start(ctx context.Context) {
 
 	g.l.Info("tx generator started", "address", g.from, "txType", g.txType)
 
+	txType := [3]uint64{0, 1, 2}
+	num := 0
 	for ; ; <-ticker.C {
 		select {
 		case <-g.ctx.Done():
 			g.l.Info("stopping tx generator")
 			return
 		default:
-			if err := g.generateTx(); err != nil {
+			if err := g.generateTx(txType[num%3]); err != nil {
 				g.l.Error("failed to generate dummy tx", "err", err)
 			}
+			num += 1
 		}
 	}
 }
@@ -122,10 +125,10 @@ func (g TxGenerator) Stop() {
 	g.cancel()
 }
 
-func (g TxGenerator) generateTx() error {
-	g.l.Info("generating dummy tx...")
+func (g TxGenerator) generateTx(txType uint64) error {
+	g.l.Info("generating dummy tx...", "txType", txType)
 
-	tx, err := g.getTx()
+	tx, err := g.getTx(txType)
 	if err != nil {
 		return fmt.Errorf("failed to get dummy tx: %w", err)
 	}
@@ -142,7 +145,7 @@ func (g TxGenerator) generateTx() error {
 	return nil
 }
 
-func (g TxGenerator) getTx() (*types.Transaction, error) {
+func (g TxGenerator) getTx(txType uint64) (*types.Transaction, error) {
 	zeroAddr := common.Address{0}
 	nonce, err := g.Backend.PendingNonceAt(g.ctx, g.from)
 	if err != nil {
@@ -157,7 +160,7 @@ func (g TxGenerator) getTx() (*types.Transaction, error) {
 	}
 
 	var txData types.TxData
-	switch g.txType {
+	switch txType {
 	case 0:
 		txData = &types.LegacyTx{
 			Nonce:    nonce,
