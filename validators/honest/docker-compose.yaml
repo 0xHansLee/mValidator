@@ -1,16 +1,14 @@
 version: '3.9'
 
 services:
-  malicious-validator:
-    build:
-      context: ../ #./Dockerfile Path
+  validator:
+    image: kromanetwork/validator:dev-2a89676
     environment:
       # Change Environment for test (Using QA)
-      VALIDATOR_OUTPUT_SUBMITTER_ENABLED: "true" # Output submitter
-      VALIDATOR_CHALLENGER_ENABLED: "false"      # Challenger
-      VALIDATOR_MALICIOUS_BLOCK_NUMBER: "125200" # Malicious block number
+      VALIDATOR_OUTPUT_SUBMITTER_ENABLED: "false" # Output submitter
+      VALIDATOR_CHALLENGER_ENABLED: "true"        # Challenger
 
-      # Don't Changed Environment
+      # Don't Change Environment
       VALIDATOR_L1_ETH_RPC: "wss://wc.easel.kroma.cc" # Target to L1 Geth Client RPC (Easel)
       VALIDATOR_L2_ETH_RPC: "http://dev-kroma-sail-apne2-proposer-vanilla-0.kroma.cc:8545" # Target to L2 Geth Client RPC (Sail)
       VALIDATOR_ROLLUP_RPC: "http://dev-kroma-sail-apne2-vanilla-0.kroma.cc:9545" # Target to L2 Consensus Client (Full Node)
@@ -22,11 +20,11 @@ services:
       VALIDATOR_RESUBMISSION_TIMEOUT: 30s
       VALIDATOR_LOG_TERMINAL: "true"
       VALIDATOR_PPROF_ENABLED: "true"
+      VALIDATOR_PROVER_RPC: "http://43.200.68.65:6000"
       VALIDATOR_CHALLENGER_POLL_INTERVAL: 5s
       VALIDATOR_GUARDIAN_ENABLED: "false"
-      VALIDATOR_PROVER_RPC: "http://43.200.68.65:6000"
       VALIDATOR_FETCHING_PROOF_TIMEOUT: 14400s
-      
+
       # Secret Configs
       VALIDATOR_L2OO_ADDRESS: "0x74Cf9087AD26D541930BaC724B7ab21bA8F00a27"
       VALIDATOR_COLOSSEUM_ADDRESS: "0x88D1aF96098a928eE278f162c1a84f339652f95b"

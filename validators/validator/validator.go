@@ -4,13 +4,14 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/urfave/cli"
+
 	"github.com/kroma-network/kroma/components/validator"
 	"github.com/kroma-network/kroma/components/validator/metrics"
 	"github.com/kroma-network/kroma/utils"
 	"github.com/kroma-network/kroma/utils/monitoring"
 	klog "github.com/kroma-network/kroma/utils/service/log"
 	krpc "github.com/kroma-network/kroma/utils/service/rpc"
-	"github.com/urfave/cli"
 )
 
 func Main(version string, cliCtx *cli.Context) error {
