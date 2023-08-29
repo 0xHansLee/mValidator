@@ -2,16 +2,16 @@ version: '3.9'
 
 services:
   validator:
-    image: kromanetwork/validator:v0.3.0-rc.2
+    image: kromanetwork/validator:v1.0.0-rc.2
     environment:
       # Change Environment for test (Using QA)
       VALIDATOR_OUTPUT_SUBMITTER_ENABLED: "false" # Output submitter
       VALIDATOR_CHALLENGER_ENABLED: "true"        # Challenger
 
       # Don't Change Environment
-      VALIDATOR_L1_ETH_RPC: "wss://wc.easel.kroma.cc" # Target to L1 Geth Client RPC (Easel)
-      VALIDATOR_L2_ETH_RPC: "http://dev-kroma-sail-apne2-proposer-vanilla-0.kroma.cc:8545" # Target to L2 Geth Client RPC (Sail)
-      VALIDATOR_ROLLUP_RPC: "http://dev-kroma-sail-apne2-vanilla-0.kroma.cc:9545" # Target to L2 Consensus Client (Full Node)
+      VALIDATOR_L1_ETH_RPC: "wss://eth-mainnet.g.alchemy.com/v2/0Kr6zOZd1yIhSencs7lilltsBuog9vFR" # Target to L1 Geth Client RPC (Easel)
+      VALIDATOR_L2_ETH_RPC: "https://api.kroma.network" # Target to L2 Geth Client RPC (Sail)
+      VALIDATOR_ROLLUP_RPC: "http://apne2a-mainnet-proposer01.kroma.network:9545" # Target to L2 Consensus Client (Full Node)
       VALIDATOR_METRICS_ENABLED: "true"
       VALIDATOR_ALLOW_NON_FINALIZED: "true"
       VALIDATOR_TXMGR_TX_SEND_TIMEOUT: 600s
@@ -20,15 +20,14 @@ services:
       VALIDATOR_RESUBMISSION_TIMEOUT: 30s
       VALIDATOR_LOG_TERMINAL: "true"
       VALIDATOR_PPROF_ENABLED: "true"
-      VALIDATOR_PROVER_RPC: "http://43.200.68.65:6000"
+      VALIDATOR_PROVER_RPC: "http://apne2a-mainnet-prover-proxy.kroma.network:6000"
       VALIDATOR_CHALLENGER_POLL_INTERVAL: 5s
       VALIDATOR_GUARDIAN_ENABLED: "false"
       VALIDATOR_FETCHING_PROOF_TIMEOUT: 14400s
 
       # Secret Configs
-      VALIDATOR_L2OO_ADDRESS: "0x74Cf9087AD26D541930BaC724B7ab21bA8F00a27"
-      VALIDATOR_COLOSSEUM_ADDRESS: "0x88D1aF96098a928eE278f162c1a84f339652f95b"
-      VALIDATOR_VALPOOL_ADDRESS: "0x8bCe54ff8aB45CB075b044AE117b8fD91F9351aB"
-      VALIDATOR_SECURITYCOUNCIL_ADDRESS: "0x5D42EBdBBa61412295D7b0302d6F50aC449Ddb4F"
-      VALIDATOR_MNEMONIC: "wonder paper game grace consider pizza grain judge stadium street nothing elevator"
-      VALIDATOR_HD_PATH: "${HD_PATH}" # QA 7~14 devops 0~6
+      VALIDATOR_L2OO_ADDRESS: "0x35bDDC8dE48590769838B27fce99BA1bA79332c2"
+      VALIDATOR_COLOSSEUM_ADDRESS: "0xe0c328959C579d5078aa13841A9003543A4d43f9"
+      VALIDATOR_VALPOOL_ADDRESS: "0xfdc4be24fF4B5FEFCF5a81ecC51027F8Ae56aF8d"
+      VALIDATOR_SECURITYCOUNCIL_ADDRESS: "0xFae3De0162dEBD7964dc71150B711ebf6A80aA02"
+      VALIDATOR_PRIVATE_KEY: "${PRIVATE_KEY}"

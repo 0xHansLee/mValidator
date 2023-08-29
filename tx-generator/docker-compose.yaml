@@ -9,9 +9,9 @@ services:
       # Change Environment for test (Using QA)
       DUMMY_TX_ACC_PRIV_KEY: "${DUMMY_TX_ACC_PRIV_KEY}"
       DUMMY_TX_TYPE: 2
-      DUMMY_TX_SEND_INTERVAL: 0.04s # 1s / 0.04 = 25 txs per sec, approximately 50 txs per block
-      CHAIN_ID: 7791
-      VALIDATOR_L2_ETH_RPC: "https://api.sail.kroma.cc" # Target to L2 Geth Client RPC (Sail)
+      DUMMY_TX_SEND_INTERVAL: 0.1s # 1s / 0.04 = 25 txs per sec, approximately 50 txs per block
+      CHAIN_ID: 255
+      VALIDATOR_L2_ETH_RPC: "http://apne2a-mainnet-proposer01.kroma.network:8545" # Target to L2 Geth Client RPC
 
       # Not Used
       VALIDATOR_OUTPUT_SUBMITTER_ENABLED: "true" # Output submitter

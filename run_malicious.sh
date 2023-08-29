@@ -1,6 +1,5 @@
 #!/bin/sh
 
-HD_PATH="m/44'/60'/1'/0/8"
-#HD_PATH="m/44'/60'/1'/0/10"
+PRIVATE_KEY=""
 
-HD_PATH="$HD_PATH" docker compose -f validators/malicious/docker-compose.yaml -p malicious up -d
+PRIVATE_KEY="$PRIVATE_KEY" docker compose -f validators/malicious/docker-compose.yaml -p malicious up -d
