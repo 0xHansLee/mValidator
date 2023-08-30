@@ -22,7 +22,7 @@ var (
 func main() {
 	klog.SetupDefaults()
 
-	flags := append(kflags.Flags, validator.MaliciousBlockNumberFlag)
+	flags := append(kflags.Flags, validator.MaliciousBlockNumberFlag, validator.OutputSubmissionIntervalFlag)
 	app := cli.NewApp()
 	app.Flags = flags
 	app.Version = fmt.Sprintf("%s-%s-%s", Version, GitCommit, GitDate)

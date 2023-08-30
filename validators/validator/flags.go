@@ -11,4 +11,10 @@ var (
 		EnvVar:   "VALIDATOR_MALICIOUS_BLOCK_NUMBER",
 		Required: true,
 	}
+	OutputSubmissionIntervalFlag = cli.Uint64Flag{
+		Name:     "output-submission-interval",
+		Usage:    "Output submission interval in block number",
+		EnvVar:   "VALIDATOR_OUTPUT_SUBMISSION_INTERVAL",
+		Required: true,
+	}
 )

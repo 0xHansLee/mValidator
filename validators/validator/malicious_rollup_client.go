@@ -14,8 +14,9 @@ import (
 )
 
 type MaliciousRollupRPC struct {
-	rpc               client.RPC
-	targetBlockNumber *hexutil.Uint64
+	rpc                      client.RPC
+	targetBlockNumber        *hexutil.Uint64
+	outputSubmissionInterval *hexutil.Uint64
 }
 
 func NewMaliciousRollupRPC(url string) (*MaliciousRollupRPC, error) {
@@ -29,9 +30,11 @@ func NewMaliciousRollupRPC(url string) (*MaliciousRollupRPC, error) {
 	}, nil
 }
 
-func (r *MaliciousRollupRPC) SetTargetBlockNum(blockNum uint64) {
+func (r *MaliciousRollupRPC) SetCustomFlags(blockNum uint64, submissionInterval uint64) {
 	r.targetBlockNumber = new(hexutil.Uint64)
 	*r.targetBlockNumber = hexutil.Uint64(blockNum)
+	r.outputSubmissionInterval = new(hexutil.Uint64)
+	*r.outputSubmissionInterval = hexutil.Uint64(submissionInterval)
 }
 
 func (r *MaliciousRollupRPC) Close() {
@@ -70,5 +73,5 @@ func (r *MaliciousRollupRPC) EthSubscribe(ctx context.Context, channel interface
 }
 
 func (r *MaliciousRollupRPC) isMaliciousBlock(blockNumber hexutil.Uint64) bool {
-	return r.targetBlockNumber != nil && blockNumber >= *r.targetBlockNumber && blockNumber < *r.targetBlockNumber+60
+	return r.targetBlockNumber != nil && r.outputSubmissionInterval != nil && blockNumber >= *r.targetBlockNumber && blockNumber < *r.targetBlockNumber+*r.outputSubmissionInterval
 }

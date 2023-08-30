@@ -22,12 +22,13 @@ func Main(version string, cliCtx *cli.Context) error {
 
 	// target malicious block number
 	maliciousBlockNumber := cliCtx.GlobalUint64(MaliciousBlockNumberFlag.Name)
+	outputSubmissionInterval := cliCtx.GlobalUint64(OutputSubmissionIntervalFlag.Name)
 
 	l := klog.NewLogger(cliCfg.LogConfig)
 	m := metrics.NewMetrics("default")
 	l.Info("initializing Validator")
 
-	validatorCfg, err := NewMaliciousValidatorConfig(cliCfg, l, m, maliciousBlockNumber)
+	validatorCfg, err := NewMaliciousValidatorConfig(cliCfg, l, m, maliciousBlockNumber, outputSubmissionInterval)
 	if err != nil {
 		l.Error("Unable to create validator config", "err", err)
 		return err

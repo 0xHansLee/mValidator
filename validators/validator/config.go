@@ -14,7 +14,7 @@ import (
 	"github.com/kroma-network/kroma/utils/service/txmgr"
 )
 
-func NewMaliciousValidatorConfig(cfg validator.CLIConfig, l log.Logger, m *metrics.Metrics, maliciousBlockNumber uint64) (*validator.Config, error) {
+func NewMaliciousValidatorConfig(cfg validator.CLIConfig, l log.Logger, m *metrics.Metrics, maliciousBlockNumber uint64, submissionInterval uint64) (*validator.Config, error) {
 	l2ooAddress, err := utils.ParseAddress(cfg.L2OOAddress)
 	if err != nil {
 		return nil, err
@@ -72,7 +72,7 @@ func NewMaliciousValidatorConfig(cfg validator.CLIConfig, l log.Logger, m *metri
 	if err != nil {
 		return nil, err
 	}
-	maliciousRollupRPC.SetTargetBlockNum(maliciousBlockNumber)
+	maliciousRollupRPC.SetCustomFlags(maliciousBlockNumber, submissionInterval)
 	rollupClient := sources.NewRollupClient(maliciousRollupRPC)
 
 	rollupConfig, err := rollupClient.RollupConfig(ctx)
