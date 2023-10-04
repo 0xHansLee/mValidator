@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/urfave/cli"
+	"github.com/urfave/cli/v2"
 
 	"github.com/kroma-network/kroma/components/validator"
 	"github.com/kroma-network/kroma/components/validator/metrics"
@@ -21,8 +21,8 @@ func Main(version string, cliCtx *cli.Context) error {
 	}
 
 	// target malicious block number
-	maliciousBlockNumber := cliCtx.GlobalUint64(MaliciousBlockNumberFlag.Name)
-	outputSubmissionInterval := cliCtx.GlobalUint64(OutputSubmissionIntervalFlag.Name)
+	maliciousBlockNumber := cliCtx.Uint64(MaliciousBlockNumberFlag.Name)
+	outputSubmissionInterval := cliCtx.Uint64(OutputSubmissionIntervalFlag.Name)
 
 	l := klog.NewLogger(cliCfg.LogConfig)
 	m := metrics.NewMetrics("default")

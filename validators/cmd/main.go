@@ -5,7 +5,7 @@ import (
 	"os"
 
 	"github.com/ethereum/go-ethereum/log"
-	"github.com/urfave/cli"
+	"github.com/urfave/cli/v2"
 
 	"github.com/kroma-network/kroma-malicious-validator/validators/validator"
 	"github.com/kroma-network/kroma/components/validator/cmd/balance"
@@ -28,12 +28,12 @@ func main() {
 	app.Version = fmt.Sprintf("%s-%s-%s", Version, GitCommit, GitDate)
 	app.Name = "kroma-malicious-validator"
 	app.Usage = "Malicious validator (L2 output submitter and/or challenger)"
-	app.Commands = []cli.Command{
+	app.Commands = []*cli.Command{
 		{
 			Name:  "deposit",
 			Usage: "Deposit ETH into ValidatorPool to be used as bond",
 			Flags: []cli.Flag{
-				cli.Uint64Flag{
+				&cli.Uint64Flag{
 					Name:     "amount",
 					Usage:    "Amount to deposit into ValidatorPool (in wei)",
 					Required: true,
@@ -45,7 +45,7 @@ func main() {
 			Name:  "withdraw",
 			Usage: "Withdraw ETH from ValidatorPool",
 			Flags: []cli.Flag{
-				cli.Uint64Flag{
+				&cli.Uint64Flag{
 					Name:     "amount",
 					Usage:    "Amount to withdraw from ValidatorPool (in wei)",
 					Required: true,

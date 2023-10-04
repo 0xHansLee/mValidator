@@ -5,7 +5,7 @@ import (
 	"os"
 
 	"github.com/ethereum/go-ethereum/log"
-	"github.com/urfave/cli"
+	"github.com/urfave/cli/v2"
 
 	txGenerator "github.com/kroma-network/kroma-malicious-validator/tx-generator"
 	kflags "github.com/kroma-network/kroma/components/validator/flags"

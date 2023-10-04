@@ -12,7 +12,7 @@ import (
 	"github.com/ethereum/go-ethereum/core/types"
 	"github.com/ethereum/go-ethereum/crypto"
 	"github.com/ethereum/go-ethereum/log"
-	"github.com/urfave/cli"
+	"github.com/urfave/cli/v2"
 
 	"github.com/kroma-network/kroma/components/validator"
 	"github.com/kroma-network/kroma/components/validator/metrics"
@@ -28,10 +28,10 @@ func Main(cliCtx *cli.Context) error {
 		return fmt.Errorf("invalid CLI flags: %w", err)
 	}
 
-	dummyTxType := cliCtx.GlobalUint64(DummyTransactionTypeFlag.Name)
-	dummyTxAccPrivKey := cliCtx.GlobalString(DummyTransactionAccPrivateKeyFlag.Name)
-	dummyTxSendInterval := cliCtx.GlobalDuration(DummyTransactionSendIntervalFlag.Name)
-	chainID := cliCtx.GlobalUint64(ChainIDFlag.Name)
+	dummyTxType := cliCtx.Uint64(DummyTransactionTypeFlag.Name)
+	dummyTxAccPrivKey := cliCtx.String(DummyTransactionAccPrivateKeyFlag.Name)
+	dummyTxSendInterval := cliCtx.Duration(DummyTransactionSendIntervalFlag.Name)
+	chainID := cliCtx.Uint64(ChainIDFlag.Name)
 
 	l := klog.NewLogger(cliCfg.LogConfig)
 	l.Info("initializing TxGenerator")

@@ -3,33 +3,33 @@ package tx_generator
 import (
 	"time"
 
-	"github.com/urfave/cli"
+	"github.com/urfave/cli/v2"
 )
 
 var (
-	DummyTransactionTypeFlag = cli.Uint64Flag{
+	DummyTransactionTypeFlag = &cli.Uint64Flag{
 		Name:     "dummy-tx-type",
 		Usage:    "generate dummy transaction of given type repeatedly",
-		EnvVar:   "DUMMY_TX_TYPE",
+		EnvVars:  []string{"DUMMY_TX_TYPE"},
 		Required: true,
 	}
-	DummyTransactionAccPrivateKeyFlag = cli.StringFlag{
+	DummyTransactionAccPrivateKeyFlag = &cli.StringFlag{
 		Name:     "dummy-tx-account",
 		Usage:    "EOA to generate dummy transaction",
-		EnvVar:   "DUMMY_TX_ACC_PRIV_KEY",
+		EnvVars:  []string{"DUMMY_TX_ACC_PRIV_KEY"},
 		Required: true,
 	}
-	DummyTransactionSendIntervalFlag = cli.DurationFlag{
+	DummyTransactionSendIntervalFlag = &cli.DurationFlag{
 		Name:     "dummy-tx-send-interval",
 		Usage:    "Interval second to send dummy transaction",
-		EnvVar:   "DUMMY_TX_SEND_INTERVAL",
+		EnvVars:  []string{"DUMMY_TX_SEND_INTERVAL"},
 		Required: false,
 		Value:    1 * time.Second,
 	}
-	ChainIDFlag = cli.Uint64Flag{
+	ChainIDFlag = &cli.Uint64Flag{
 		Name:     "chain-id",
 		Usage:    "chain id to send transaction",
-		EnvVar:   "CHAIN_ID",
+		EnvVars:  []string{"CHAIN_ID"},
 		Required: true,
 	}
 )
