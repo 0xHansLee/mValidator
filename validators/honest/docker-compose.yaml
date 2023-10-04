@@ -10,8 +10,8 @@ services:
 
       # Don't Change Environment
       VALIDATOR_L1_ETH_RPC: "wss://wc.easel.kroma.cc" # Target to L1 Geth Client RPC (Easel)
-      VALIDATOR_L2_ETH_RPC: "http://dev-kroma-sail-apne2-proposer-vanilla-0.kroma.cc:8545" # Target to L2 Geth Client RPC (Sail)
-      VALIDATOR_ROLLUP_RPC: "http://dev-kroma-sail-apne2-vanilla-0.kroma.cc:9545" # Target to L2 Consensus Client (Full Node)
+      VALIDATOR_L2_ETH_RPC: "http://apne2a-sail-proposer01.kroma.cc:8545" # Target to L2 Geth Client RPC (Sail)
+      VALIDATOR_ROLLUP_RPC: "http://apne2a-sail-proposer01.kroma.cc:9545" # Target to L2 Consensus Client (Full Node)
       VALIDATOR_METRICS_ENABLED: "true"
       VALIDATOR_ALLOW_NON_FINALIZED: "true"
       VALIDATOR_TXMGR_TX_SEND_TIMEOUT: 600s
@@ -26,9 +26,9 @@ services:
       VALIDATOR_FETCHING_PROOF_TIMEOUT: 14400s
 
       # Secret Configs
-      VALIDATOR_L2OO_ADDRESS: "0x74Cf9087AD26D541930BaC724B7ab21bA8F00a27"
-      VALIDATOR_COLOSSEUM_ADDRESS: "0x88D1aF96098a928eE278f162c1a84f339652f95b"
-      VALIDATOR_VALPOOL_ADDRESS: "0x8bCe54ff8aB45CB075b044AE117b8fD91F9351aB"
-      VALIDATOR_SECURITYCOUNCIL_ADDRESS: "0x5D42EBdBBa61412295D7b0302d6F50aC449Ddb4F"
+      VALIDATOR_L2OO_ADDRESS: "0x81F82957608f74441E085851cA5Cc091b23d17A2"
+      VALIDATOR_COLOSSEUM_ADDRESS: "0x5BFaaA02cAb795d576276a19CB1c2D2D2d652717"
+      VALIDATOR_VALPOOL_ADDRESS: "0x645D817611E0CDaF9cD43332c4E369B9E333471d"
+      VALIDATOR_SECURITYCOUNCIL_ADDRESS: "0xa51807d5a12E7e78148c66dC4851CD33EEd1FDfD"
       VALIDATOR_MNEMONIC: "wonder paper game grace consider pizza grain judge stadium street nothing elevator"
       VALIDATOR_HD_PATH: "${HD_PATH}" # QA 7~14 devops 0~6
