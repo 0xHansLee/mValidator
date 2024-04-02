@@ -8,8 +8,8 @@ services:
     environment:
       # Change Environment for test (Using QA)
       VALIDATOR_OUTPUT_SUBMITTER_ENABLED: "true" # Output submitter
-      VALIDATOR_CHALLENGER_ENABLED: "false"      # Challenger
-      VALIDATOR_MALICIOUS_BLOCK_NUMBER: "232130" # Malicious block number
+      VALIDATOR_CHALLENGER_ENABLED: "true"      # Challenger
+      VALIDATOR_MALICIOUS_BLOCK_NUMBER: "8440120" # Malicious block number
       VALIDATOR_OUTPUT_SUBMISSION_INTERVAL: "60" # L2 output submission interval
 
       # Don't Change Environment
@@ -26,7 +26,7 @@ services:
       VALIDATOR_PPROF_ENABLED: "true"
       VALIDATOR_CHALLENGER_POLL_INTERVAL: 5s
       VALIDATOR_GUARDIAN_ENABLED: "false"
-      VALIDATOR_PROVER_RPC: "http://43.200.68.65:6000"
+      VALIDATOR_PROVER_RPC: "http://apne2a-sail-prover-proxy.kroma.cc:6000"
       VALIDATOR_FETCHING_PROOF_TIMEOUT: 14400s
       VALIDATOR_OUTPUT_SUBMITTER_ALLOW_PUBLIC_ROUND: true
       

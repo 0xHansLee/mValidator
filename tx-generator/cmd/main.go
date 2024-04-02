@@ -8,8 +8,8 @@ import (
 	"github.com/urfave/cli/v2"
 
 	txGenerator "github.com/kroma-network/kroma-malicious-validator/tx-generator"
-	kflags "github.com/kroma-network/kroma/components/validator/flags"
-	klog "github.com/kroma-network/kroma/utils/service/log"
+	kflags "github.com/kroma-network/kroma/kroma-validator/flags"
+	klog "github.com/kroma-network/kroma/op-service/log"
 )
 
 var (

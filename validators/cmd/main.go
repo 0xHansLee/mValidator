@@ -8,9 +8,9 @@ import (
 	"github.com/urfave/cli/v2"
 
 	"github.com/kroma-network/kroma-malicious-validator/validators/validator"
-	"github.com/kroma-network/kroma/components/validator/cmd/balance"
-	kflags "github.com/kroma-network/kroma/components/validator/flags"
-	klog "github.com/kroma-network/kroma/utils/service/log"
+	"github.com/kroma-network/kroma/kroma-validator/cmd/balance"
+	kflags "github.com/kroma-network/kroma/kroma-validator/flags"
+	klog "github.com/kroma-network/kroma/op-service/log"
 )
 
 var (

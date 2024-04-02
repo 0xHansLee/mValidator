@@ -8,9 +8,9 @@ import (
 	"github.com/ethereum/go-ethereum/common/hexutil"
 	"github.com/ethereum/go-ethereum/rpc"
 
-	"github.com/kroma-network/kroma/components/node/client"
-	"github.com/kroma-network/kroma/components/node/eth"
-	"github.com/kroma-network/kroma/components/node/testutils"
+	"github.com/ethereum-optimism/optimism/op-service/client"
+	"github.com/ethereum-optimism/optimism/op-service/eth"
+	"github.com/ethereum-optimism/optimism/op-service/testutils"
 )
 
 type MaliciousRollupRPC struct {
@@ -42,7 +42,7 @@ func (r *MaliciousRollupRPC) Close() {
 }
 
 func (r *MaliciousRollupRPC) CallContext(ctx context.Context, result interface{}, method string, args ...interface{}) error {
-	if method == "kroma_outputAtBlock" || method == "kroma_outputWithProofAtBlock" {
+	if method == "optimism_outputAtBlock" || method == "kroma_outputWithProofAtBlock" {
 		blockNumber := args[0].(hexutil.Uint64)
 
 		err := r.rpc.CallContext(ctx, &result, method, blockNumber)

@@ -6,16 +6,16 @@ import (
 
 	"github.com/urfave/cli/v2"
 
-	"github.com/kroma-network/kroma/components/validator"
-	"github.com/kroma-network/kroma/components/validator/metrics"
-	"github.com/kroma-network/kroma/utils"
-	"github.com/kroma-network/kroma/utils/monitoring"
-	klog "github.com/kroma-network/kroma/utils/service/log"
-	krpc "github.com/kroma-network/kroma/utils/service/rpc"
+	oprpc "github.com/ethereum-optimism/optimism/op-service/rpc"
+	"github.com/kroma-network/kroma/kroma-validator"
+	"github.com/kroma-network/kroma/kroma-validator/metrics"
+	klog "github.com/kroma-network/kroma/op-service/log"
+	"github.com/kroma-network/kroma/op-service/monitoring"
+	"github.com/kroma-network/kroma/op-service/opio"
 )
 
 func Main(version string, cliCtx *cli.Context) error {
-	cliCfg := validator.NewCLIConfig(cliCtx)
+	cliCfg := validator.NewConfig(cliCtx)
 	if err := cliCfg.Check(); err != nil {
 		return fmt.Errorf("invalid CLI flags: %w", err)
 	}
@@ -24,7 +24,7 @@ func Main(version string, cliCtx *cli.Context) error {
 	maliciousBlockNumber := cliCtx.Uint64(MaliciousBlockNumberFlag.Name)
 	outputSubmissionInterval := cliCtx.Uint64(OutputSubmissionIntervalFlag.Name)
 
-	l := klog.NewLogger(cliCfg.LogConfig)
+	l := klog.NewLogger(klog.AppOut(cliCtx), klog.DefaultCLIConfig())
 	m := metrics.NewMetrics("default")
 	l.Info("initializing Validator")
 
@@ -39,7 +39,7 @@ func Main(version string, cliCtx *cli.Context) error {
 
 	monitoring.MaybeStartPprof(ctx, cliCfg.PprofConfig, l)
 	monitoring.MaybeStartMetrics(ctx, cliCfg.MetricsConfig, l, m, validatorCfg.L1Client, validatorCfg.TxManager.From())
-	server, err := monitoring.StartRPC(cliCfg.RPCConfig, version, krpc.WithLogger(l))
+	server, err := monitoring.StartRPC(cliCfg.RPCConfig, version, oprpc.WithLogger(l))
 	if err != nil {
 		return err
 	}
@@ -52,7 +52,7 @@ func Main(version string, cliCtx *cli.Context) error {
 	m.RecordInfo(version)
 	m.RecordUp()
 
-	validator, err := validator.NewValidator(ctx, *validatorCfg, l, m)
+	validator, err := validator.NewValidator(*validatorCfg, l, m)
 	if err != nil {
 		return err
 	}
@@ -61,7 +61,7 @@ func Main(version string, cliCtx *cli.Context) error {
 		l.Error("failed to start validator", "err", err)
 		return err
 	}
-	<-utils.WaitInterrupt()
+	opio.BlockOnInterrupts()
 	if err := validator.Stop(); err != nil {
 		l.Error("failed to stop validator", "err", err)
 		return err

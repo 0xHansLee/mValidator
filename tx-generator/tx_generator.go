@@ -14,16 +14,16 @@ import (
 	"github.com/ethereum/go-ethereum/log"
 	"github.com/urfave/cli/v2"
 
-	"github.com/kroma-network/kroma/components/validator"
-	"github.com/kroma-network/kroma/components/validator/metrics"
-	"github.com/kroma-network/kroma/utils"
-	kcrypto "github.com/kroma-network/kroma/utils/service/crypto"
-	klog "github.com/kroma-network/kroma/utils/service/log"
-	"github.com/kroma-network/kroma/utils/service/txmgr"
+	"github.com/kroma-network/kroma/kroma-validator"
+	"github.com/kroma-network/kroma/kroma-validator/metrics"
+	kcrypto "github.com/kroma-network/kroma/op-service/crypto"
+	klog "github.com/kroma-network/kroma/op-service/log"
+	"github.com/kroma-network/kroma/op-service/opio"
+	"github.com/kroma-network/kroma/op-service/txmgr"
 )
 
 func Main(cliCtx *cli.Context) error {
-	cliCfg := validator.NewCLIConfig(cliCtx)
+	cliCfg := validator.NewConfig(cliCtx)
 	if err := cliCfg.Check(); err != nil {
 		return fmt.Errorf("invalid CLI flags: %w", err)
 	}
@@ -33,7 +33,7 @@ func Main(cliCtx *cli.Context) error {
 	dummyTxSendInterval := cliCtx.Duration(DummyTransactionSendIntervalFlag.Name)
 	chainID := cliCtx.Uint64(ChainIDFlag.Name)
 
-	l := klog.NewLogger(cliCfg.LogConfig)
+	l := klog.NewLogger(klog.AppOut(cliCtx), klog.DefaultCLIConfig())
 	l.Info("initializing TxGenerator")
 
 	txGeneratorCfg, err := validator.NewValidatorConfig(cliCfg, l, metrics.NoopMetrics)
@@ -52,7 +52,7 @@ func Main(cliCtx *cli.Context) error {
 	defer cancel()
 
 	generator.Start(ctx)
-	<-utils.WaitInterrupt()
+	opio.BlockOnInterrupts()
 	generator.Stop()
 
 	return nil

@@ -4,40 +4,45 @@ import (
 	"context"
 	"errors"
 
+	opsources "github.com/ethereum-optimism/optimism/op-service/sources"
+	optxmgr "github.com/ethereum-optimism/optimism/op-service/txmgr"
 	"github.com/ethereum/go-ethereum/log"
-
-	"github.com/kroma-network/kroma/components/node/sources"
-	"github.com/kroma-network/kroma/components/validator"
-	"github.com/kroma-network/kroma/components/validator/challenge"
-	"github.com/kroma-network/kroma/components/validator/metrics"
-	"github.com/kroma-network/kroma/utils"
-	"github.com/kroma-network/kroma/utils/service/txmgr"
+	"github.com/kroma-network/kroma/kroma-validator"
+	"github.com/kroma-network/kroma/kroma-validator/challenge"
+	"github.com/kroma-network/kroma/kroma-validator/metrics"
+	opservice "github.com/kroma-network/kroma/op-service"
+	"github.com/kroma-network/kroma/op-service/dial"
 )
 
 func NewMaliciousValidatorConfig(cfg validator.CLIConfig, l log.Logger, m *metrics.Metrics, maliciousBlockNumber uint64, submissionInterval uint64) (*validator.Config, error) {
-	l2ooAddress, err := utils.ParseAddress(cfg.L2OOAddress)
+	l2ooAddress, err := opservice.ParseAddress(cfg.L2OOAddress)
 	if err != nil {
 		return nil, err
 	}
 
-	colosseumAddress, err := utils.ParseAddress(cfg.ColosseumAddress)
+	colosseumAddress, err := opservice.ParseAddress(cfg.ColosseumAddress)
 	if err != nil {
 		return nil, err
 	}
 
-	securityCouncilAddress, err := utils.ParseAddress(cfg.SecurityCouncilAddress)
+	securityCouncilAddress, err := opservice.ParseAddress(cfg.SecurityCouncilAddress)
 	if err != nil {
 		return nil, err
 	}
 
-	valPoolAddress, err := utils.ParseAddress(cfg.ValPoolAddress)
+	valPoolAddress, err := opservice.ParseAddress(cfg.ValPoolAddress)
 	if err != nil {
 		return nil, err
 	}
 
-	txManager, err := txmgr.NewBufferedTxManager("validator", l, m, cfg.TxMgrConfig)
+	//opCfg := optxmgr.NewCLIConfig(cfg.L1EthRpc, optxmgr.DefaultBatcherFlagValues)
+	opCfg := cfg.TxMgrConfig
+	simpleTxManager, err := optxmgr.NewSimpleTxManager("validator", l, m, opCfg)
 	if err != nil {
 		return nil, err
+	}
+	bfTxManager := &optxmgr.BufferedTxManager{
+		SimpleTxManager: *simpleTxManager,
 	}
 
 	if !cfg.OutputSubmitterEnabled && !cfg.ChallengerEnabled {
@@ -58,12 +63,12 @@ func NewMaliciousValidatorConfig(cfg validator.CLIConfig, l log.Logger, m *metri
 
 	// Connect to L1 and L2 providers. Perform these last since they are the most expensive.
 	ctx := context.Background()
-	l1Client, err := utils.DialEthClientWithTimeout(ctx, cfg.L1EthRpc)
+	l1Client, err := dial.DialEthClientWithTimeout(ctx, dial.DefaultDialTimeout, l, cfg.L1EthRpc)
 	if err != nil {
 		return nil, err
 	}
 
-	l2Client, err := utils.DialEthClientWithTimeout(ctx, cfg.L2EthRpc)
+	l2Client, err := dial.DialEthClientWithTimeout(ctx, dial.DefaultDialTimeout, l, cfg.L2EthRpc)
 	if err != nil {
 		return nil, err
 	}
@@ -73,7 +78,7 @@ func NewMaliciousValidatorConfig(cfg validator.CLIConfig, l log.Logger, m *metri
 		return nil, err
 	}
 	maliciousRollupRPC.SetCustomFlags(maliciousBlockNumber, submissionInterval)
-	rollupClient := sources.NewRollupClient(maliciousRollupRPC)
+	rollupClient := opsources.NewRollupClient(maliciousRollupRPC)
 
 	rollupConfig, err := rollupClient.RollupConfig(ctx)
 	if err != nil {
@@ -87,7 +92,7 @@ func NewMaliciousValidatorConfig(cfg validator.CLIConfig, l log.Logger, m *metri
 		ValidatorPoolAddr:               valPoolAddress,
 		ChallengerPollInterval:          cfg.ChallengerPollInterval,
 		NetworkTimeout:                  cfg.TxMgrConfig.NetworkTimeout,
-		TxManager:                       txManager,
+		TxManager:                       bfTxManager,
 		L1Client:                        l1Client,
 		L2Client:                        l2Client,
 		RollupClient:                    rollupClient,
